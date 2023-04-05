@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emscripten Example</title>
+</head>
+
+<body>
+  <button onclick="paint()">paint</button>
+  <button onclick="erase()">erase</button>
+  <script type="text/javascript" src="helloWorld.js"></script>
+  <script type='text/javascript'>
+    function erase() {
+      document.body.removeChild(document.getElementById("canvas"));
+    }
+    function paint() {
+      canvas = document.createElement("canvas");
+      canvas.id = "canvas";
+      document.body.appendChild(canvas);
+      var module = {
+        print: function (text) { console.log("print", text); },
+        canvas: canvas,
+        setStatus: function (status) { console.log("status", status); }
+      }
+      Module(module).then((m) => {
+        m._hello();
+      });
+    }
+  </script>
+</body>
+
+</html>
